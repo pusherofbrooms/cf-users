@@ -2,6 +2,7 @@ Promise = require 'promise'
 adminOauth = require "./AdminOauth"
 services = require "./serviceBindings"
 requestjs = require 'request'
+_ = require 'underscore'
 
 
 adminOauth.initOauth2()
@@ -67,6 +68,15 @@ cfapi.allUsers = (req,res) ->
       ,(error)->
         res.sendStatus(500).send(error)
         reject(error)
+  , (error) ->
+    console.log("Unauthenticated user attempt to fetch all users")
+
+cfapi.allUsersWithQuery = (req, res) ->
+  fetchUser(req,res).then (userinfo)->
+    adminOauth.refreshToken (token) ->
+      query = _.pick(req.query, 'q', 'page', 'results-per-page', 'order-direction');
+      fetchAllUsersWithQuery(token, query).then(res.json.bind(res)).catch (error) ->
+        res.sendStatus(500).send(error)
   , (error) ->
     console.log("Unauthenticated user attempt to fetch all users")
 
@@ -276,6 +286,21 @@ fetchAllUsers = (token, usersToReturn, page)->
           resolve(usersToReturn)
       else
         reject(error)
+
+fetchAllUsersWithQuery = (token, query)->
+  new Promise (resolve,reject) ->
+    query = _.defaults opts, { 'results-per-page': 20, 'order-direction': 'asc', page: 1 }
+    options =
+      url: "https://#{services["cloud_foundry_api-domain"].value}/v2/users"
+      qs: query
+      json: true
+      headers: {'Authorization': "Bearer " + token.token.access_token}
+    requestjs options, (error, response, body) ->
+      if (error || response.statusCode != 200)
+        reject(error)
+      else
+        resolve(body)
+
 
 fetchAllOrganizations = (token,orgsToReturn,page)->
   new Promise (resolve,reject) ->
