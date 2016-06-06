@@ -229,7 +229,7 @@ buildUaacRequest = (req)->
   if(userIdComponents[1])
     domain=userIdComponents[1].toLowerCase()
   else
-    domain=#{services["cloud_foundry_api-default-email-domain"].value}
+    domain=services["cloud_foundry_api-default-email-domain"].value
   email = "#{lowerId}@#{domain}"
   familyName = if(identityProvider!="uaa") then services["cloud_foundry_api-default-email-domain"].value else lowerId
 
