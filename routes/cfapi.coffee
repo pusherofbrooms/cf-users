@@ -226,7 +226,11 @@ buildUaacRequest = (req)->
   upperId = userIdComponents[0].toUpperCase()
   lowerId = userIdComponents[0].toLowerCase()
   givenName = userIdComponents[0]
-  email = if (identityProvider!="uaa") then "#{lowerId}@#{services["cloud_foundry_api-default-email-domain"].value}" else lowerId
+  if(userIdComponents[1])
+    domain=userIdComponents[1].toLowerCase()
+  else
+    domain=#{services["cloud_foundry_api-default-email-domain"].value}
+  email = "#{lowerId}@#{domain}"
   familyName = if(identityProvider!="uaa") then services["cloud_foundry_api-default-email-domain"].value else lowerId
 
   username = switch(services["cloud_foundry_api-user-name-type"]?.value)

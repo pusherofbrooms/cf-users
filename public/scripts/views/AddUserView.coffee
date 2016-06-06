@@ -24,8 +24,8 @@ templateText = """<div class="container"><div class="row">
                   <div class="col-sm-1">&nbsp;</div>
                   <div class="col-sm-3"><input id="user-id" class="form-control user-id" type="text" /></div>
                   <div class="col-sm-2"><div class="identity-provider" id="identity-provider"></div></div>
-                  <div class="col-sm-3"><input id="password" class="form-control password" type="password" disabled data-toggle="tooltip" title="Password and Verify must match."/></div>
-                  <div class="col-sm-3"><input class="password2 form-control" type="password" disabled data-toggle="tooltip" title="Password and Verify must match."/></div>
+                  <div class="col-sm-3"><input id="password" class="form-control password" type="password" data-toggle="tooltip" title="Password and Verify must match."/></div>
+                  <div class="col-sm-3"><input class="password2 form-control" type="password" data-toggle="tooltip" title="Password and Verify must match."/></div>
               </div>
               <div class="row">
                   <div class="col-sm-12">&nbsp;</div>
@@ -73,7 +73,7 @@ module.exports = backbone.View.extend
          developer : true
          manager     : false
          auditor   : false
-       identityProvider : "ldap"
+       identityProvider : "uaa"
        spaces : []
   events :
      "change .user-id " : "changeUserId"
@@ -145,7 +145,6 @@ module.exports = backbone.View.extend
         allowClear : true
 
       identityProviders = [
-        { text : "Active Directory", id:"ldap"}
         { text : "Cloud Foundry", id:"uaa"}
       ]
       for identityProvider in samlProviders[0]
@@ -156,7 +155,7 @@ module.exports = backbone.View.extend
         multiple : false
         allowClear : false
 
-      @identityProviderSelect.select2("val","ldap")
+      @identityProviderSelect.select2("val","uaa")
       @identityProviderSelect.change($.proxy( @changeAdUser,@))
 
     failure = (XMLHttpRequest, textStatus, errorThrown) =>
