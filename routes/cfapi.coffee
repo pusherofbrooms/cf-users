@@ -78,7 +78,6 @@ cfapi.allUsersWithQuery = (req, res) ->
     adminOauth.refreshToken (token) ->
       console.log('got token')
       query = _.pick(req.query ? {}, 'q', 'page', 'results-per-page', 'order-direction')
-      console.log('query = ', query)
       fetchAllUsersWithQuery(token, query).then (response) ->
         console.log('sending response', response)
         res.json(response)
@@ -298,15 +297,19 @@ fetchAllUsers = (token, usersToReturn, page)->
 fetchAllUsersWithQuery = (token, query)->
   new Promise (resolve,reject) ->
     query = _.defaults(opts, { 'page': 1, 'results-per-page': 20, 'order-direction': 'asc' })
+    console.log('query = ', query);
     options =
       url: "https://#{services["cloud_foundry_api-domain"].value}/v2/users"
       qs: query
       json: true
       headers: {'Authorization': "Bearer " + token.token.access_token}
+    console.log(url, query)
     requestjs options, (error, response, body) ->
       if (error || response.statusCode != 200)
+        console.error(error)
         reject(error)
       else
+        console.log(body)
         resolve(body)
 
 
