@@ -1,0 +1,8 @@
+---
+applications:
+- name: cf-users
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack.git#v1.5.4
+#  domain: us-east.philips-healthsuite.com
+
+services:
+- cloud_foundry_api 
