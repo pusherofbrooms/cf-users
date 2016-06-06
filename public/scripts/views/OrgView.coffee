@@ -8,6 +8,8 @@ OrgUserView = require './OrgUserView'
 spinner = require './Spinner'
 require 'select2'
 
+require '../../../bower_components/jquery-bootstrap-pagination/vendor/assets/javascripts/jquery-bootstrap-pagination.js'
+
 module.exports = backbone.View.extend
   initialize : (options) ->
     @host = options.host
