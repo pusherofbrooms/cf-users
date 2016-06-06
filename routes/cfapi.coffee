@@ -72,17 +72,12 @@ cfapi.allUsers = (req,res) ->
     console.log("Unauthenticated user attempt to fetch all users")
 
 cfapi.allUsersWithQuery = (req, res) ->
-  console.log('got request', req.query)
   fetchUser(req,res).then (userinfo)->
-    console.log('got user')
     adminOauth.refreshToken (token) ->
-      console.log('got token')
       query = _.pick(req.query ? {}, 'q', 'page', 'results-per-page', 'order-direction')
       fetchAllUsersWithQuery(token, query).then (response) ->
-        console.log('sending response', response)
         res.json(response)
       , (error) ->
-        console.log('sending error', error)
         res.sendStatus(500).send(error)
   , (error) ->
     console.log("Unauthenticated user attempt to fetch all users")
@@ -302,13 +297,11 @@ fetchAllUsersWithQuery = (token, query)->
       qs: query
       json: true
       headers: {'Authorization': "Bearer " + token.token.access_token}
-    console.log(options.url, query)
     requestjs options, (error, response, body) ->
       if (error || response.statusCode != 200)
         console.error(error)
         reject(error)
       else
-        console.log(body)
         resolve(body)
 
 
@@ -338,8 +331,7 @@ fetchAllOrganizations = (token,orgsToReturn,page)->
         else
           resolve(orgsToReturn)
       else
-        resolve(error)
-#        reject(error)
+        reject(error)
 
 fetchListCfRequest = (token,resourcesToReturn, level,levelGuid, associationType, filter, page)->
 
