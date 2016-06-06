@@ -72,12 +72,18 @@ cfapi.allUsers = (req,res) ->
     console.log("Unauthenticated user attempt to fetch all users")
 
 cfapi.allUsersWithQuery = (req, res) ->
+  console.log('got request', req.query)
   fetchUser(req,res).then (userinfo)->
+    console.log('got user')
     adminOauth.refreshToken (token) ->
+      console.log('got token')
       query = _.pick(req.query ? {}, 'q', 'page', 'results-per-page', 'order-direction')
+      console.log('query = ', query)
       fetchAllUsersWithQuery(token, query).then (response) ->
+        console.log('sending response', response)
         res.json(response)
       , (error) ->
+        console.log('sending error', error)
         res.sendStatus(500).send(error)
   , (error) ->
     console.log("Unauthenticated user attempt to fetch all users")
@@ -295,12 +301,12 @@ fetchAllUsersWithQuery = (token, query)->
     options =
       url: "https://#{services["cloud_foundry_api-domain"].value}/v2/users"
       qs: query
+      json: true
       headers: {'Authorization': "Bearer " + token.token.access_token}
     requestjs options, (error, response, body) ->
       if (error || response.statusCode != 200)
         reject(error)
       else
-        body = JSON.parse(body)
         resolve(body)
 
 
