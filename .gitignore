@@ -1,3 +1,5 @@
+.idea/
 node_modules/
+bower_components/
 public/scripts/bundle.js
 public/scripts/bundle.js.map
