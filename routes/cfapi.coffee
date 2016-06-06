@@ -296,8 +296,7 @@ fetchAllUsers = (token, usersToReturn, page)->
 
 fetchAllUsersWithQuery = (token, query)->
   new Promise (resolve,reject) ->
-    query = _.defaults(opts, { 'page': 1, 'results-per-page': 20, 'order-direction': 'asc' })
-    console.log('query = ', query);
+    query = _.defaults(query, { 'page': 1, 'results-per-page': 20, 'order-direction': 'asc' })
     options =
       url: "https://#{services["cloud_foundry_api-domain"].value}/v2/users"
       qs: query
