@@ -74,7 +74,7 @@ cfapi.allUsers = (req,res) ->
 cfapi.allUsersWithQuery = (req, res) ->
   fetchUser(req,res).then (userinfo)->
     adminOauth.refreshToken (token) ->
-      query = _.pick(req.query, 'q', 'page', 'results-per-page', 'order-direction')
+      query = _.pick(req.query ? {}, 'q', 'page', 'results-per-page', 'order-direction')
       fetchAllUsersWithQuery(token, query).then (response) ->
         res.json(response)
       , (error) ->
@@ -291,15 +291,13 @@ fetchAllUsers = (token, usersToReturn, page)->
 
 fetchAllUsersWithQuery = (token, query)->
   new Promise (resolve,reject) ->
-    query = _.defaults opts, { 'results-per-page': 20, 'order-direction': 'asc', page: 1 }
+    query = _.defaults(opts, { 'page': 1, 'results-per-page': 20, 'order-direction': 'asc' })
     options =
       url: "https://#{services["cloud_foundry_api-domain"].value}/v2/users"
       qs: query
       json: true
       headers: {'Authorization': "Bearer " + token.token.access_token}
-    console.log(options.url, options.qs)
     requestjs options, (error, response, body) ->
-      console.log(error, body)
       if (error || response.statusCode != 200)
         reject(error)
       else
@@ -332,7 +330,8 @@ fetchAllOrganizations = (token,orgsToReturn,page)->
         else
           resolve(orgsToReturn)
       else
-        reject(error)
+        resolve(error)
+#        reject(error)
 
 fetchListCfRequest = (token,resourcesToReturn, level,levelGuid, associationType, filter, page)->
 
