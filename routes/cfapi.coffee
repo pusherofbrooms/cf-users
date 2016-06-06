@@ -74,8 +74,8 @@ cfapi.allUsers = (req,res) ->
 cfapi.allUsersWithQuery = (req, res) ->
   fetchUser(req,res).then (userinfo)->
     adminOauth.refreshToken (token) ->
-      query = _.pick(req.query, 'q', 'page', 'results-per-page', 'order-direction');
-      fetchAllUsersWithQuery(token, query).then(res.json.bind(res)).catch (error) ->
+      query = _.pick(req.query, 'q', 'page', 'results-per-page', 'order-direction')
+      fetchAllUsersWithQuery(token, query).then res.json.bind(res), (error) ->
         res.sendStatus(500).send(error)
   , (error) ->
     console.log("Unauthenticated user attempt to fetch all users")
