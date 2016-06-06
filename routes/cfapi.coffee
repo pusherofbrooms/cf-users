@@ -302,7 +302,7 @@ fetchAllUsersWithQuery = (token, query)->
       qs: query
       json: true
       headers: {'Authorization': "Bearer " + token.token.access_token}
-    console.log(url, query)
+    console.log(options.url, query)
     requestjs options, (error, response, body) ->
       if (error || response.statusCode != 200)
         console.error(error)
