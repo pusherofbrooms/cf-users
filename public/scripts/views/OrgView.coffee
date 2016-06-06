@@ -3,7 +3,6 @@ backbone = require 'backbone'
 _ = require 'underscore'
 $ = require 'jquery'
 bootbox = require 'bootbox'
-PaginationView = require './PaginationView'
 OrgUserView = require './OrgUserView'
 
 spinner = require './Spinner'
@@ -16,18 +15,7 @@ module.exports = backbone.View.extend
     @orgName = options.orgName
     @userName = options.userName
 
-
   render : ->
-
-    pagination = new PaginationView
-        options:
-          total_pages: 35
-          current_page: 1
-        id: 'users'
-
-    pagination.render()
-    pagination.bindPagination()
-
     table = $("<table class=\"table table-bordered table-striped\"></table>")
     row = $("<tr></tr>")
     row.append $("<th >User Id</th>")
@@ -35,8 +23,14 @@ module.exports = backbone.View.extend
     row.append $("<th>Org Manager</th>")
     row.append  $("<th>Org Auditor</th>")
     table.append(row)
-    @.$el.append(pagination.$el)
     @.$el.append(table)
+
+    pagination = $('<nav><ul class="pagination"></ul></nav>')
+    @.$el.append(pagination)
+    pagination.pagination
+      total_pages: 35
+      current_page: 2
+
     spinner.blockUI()
     auditorRequest = $.ajax
       url: "https://#{@host}/cf-users/cf-api/organizations/#{@orgGuid}/auditors"
