@@ -295,12 +295,12 @@ fetchAllUsersWithQuery = (token, query)->
     options =
       url: "https://#{services["cloud_foundry_api-domain"].value}/v2/users"
       qs: query
-      json: true
       headers: {'Authorization': "Bearer " + token.token.access_token}
     requestjs options, (error, response, body) ->
       if (error || response.statusCode != 200)
         reject(error)
       else
+        body = JSON.parse(body)
         resolve(body)
 
 
