@@ -27,11 +27,14 @@ module.exports = backbone.View.extend
     table.append(row)
     @.$el.append(table)
 
-    pagination = $('<nav><ul class="pagination"></ul></nav>')
+    pagination = $('<div id="userPagination"></div>')
     @.$el.append(pagination)
     pagination.pagination
       total_pages: 35
       current_page: 2
+      next: '&raquo;'
+      prev: '&laquo;'
+      display_max: 5
 
     spinner.blockUI()
     auditorRequest = $.ajax
