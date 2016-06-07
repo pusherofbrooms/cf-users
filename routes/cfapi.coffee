@@ -2,6 +2,7 @@ Promise = require 'promise'
 adminOauth = require "./AdminOauth"
 services = require "./serviceBindings"
 requestjs = require 'request'
+URL = require 'url'
 _ = require 'underscore'
 
 
@@ -74,8 +75,9 @@ cfapi.allUsers = (req,res) ->
 cfapi.allUsersWithQuery = (req, res) ->
   fetchUser(req,res).then (userinfo)->
     adminOauth.refreshToken (token) ->
-      console.log('action before query', req.query)
-      query = _.pick(req.query ? {}, 'q', 'page', 'results-per-page', 'order-direction')
+      parts = URL.parse(req.url, true)
+      console.log('action before query', parts.query)
+      query = _.pick(parts.query ? {}, 'q', 'page', 'results-per-page', 'order-direction')
       console.log('action after query', query)
       fetchAllUsersWithQuery(token, query).then (response) ->
         res.json(response)
