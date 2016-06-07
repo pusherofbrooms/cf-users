@@ -75,8 +75,11 @@ cfapi.allUsers = (req,res) ->
 cfapi.allUsersWithQuery = (req, res) ->
   fetchUser(req,res).then (userinfo)->
     adminOauth.refreshToken (token) ->
+      console.log('req', req)
+      console.log('req.url', req.url)
+      console.log('req.query', req.query)
       parts = URL.parse(req.url, true)
-      console.log('action before query', parts.query)
+      console.log('action before query', parts)
       query = _.pick(parts.query ? {}, 'q', 'page', 'results-per-page', 'order-direction')
       console.log('action after query', query)
       fetchAllUsersWithQuery(token, query).then (response) ->
