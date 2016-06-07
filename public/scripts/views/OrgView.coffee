@@ -67,10 +67,10 @@ module.exports = backbone.View.extend
           current_page: @currentPage
           next: '&raquo;'
           prev: '&laquo;'
-          display_max: 5
+          display_max: 4
           callback: (event, page) =>
             console.log(event, page)
-            @currentPage = page
+            @currentPage = parseInt(page)
             pagination.unbind()
             @$el.empty()
             @render()
