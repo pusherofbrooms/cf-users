@@ -80,7 +80,7 @@ module.exports = backbone.View.extend
       if(userData.total_pages>userCurrentPage)
         userCurrentPage++;
         $.ajax
-          url:"https://#{@host}/cf-users/cf-api/users}"
+          url:"https://#{@host}/cf-users/cf-api/users"
           success: userHandler
           error : (XMLHttpRequest, textStatus, errorThrown)=>
             spinner.unblockUI()

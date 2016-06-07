@@ -35,7 +35,6 @@ module.exports = backbone.View.extend
       url: "https://#{@host}/cf-users/cf-api/organizations/#{@orgGuid}/managers"
     orgUserRequest = $.ajax
       url: "https://#{@host}/cf-users/cf-api/organizations/#{@orgGuid}/users"
-
     userRequest = $.ajax
       url:"https://#{@host}/cf-users/cf-api/users?page=#{@currentPage}"
 
@@ -76,7 +75,6 @@ module.exports = backbone.View.extend
             @render()
 
         spinner.unblockUI()
-
 
     failure = (XMLHttpRequest, textStatus, errorThrown) =>
        spinner.unblockUI()
