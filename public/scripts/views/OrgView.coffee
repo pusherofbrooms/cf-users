@@ -73,6 +73,7 @@ module.exports = backbone.View.extend
 
         pagination = $('<div id="userPagination"></div>')
         @$el.append(pagination)
+        console.log(userData)
         pagination.pagination
           total_pages: userData[0].total_pages
           current_page: @currentPage
@@ -98,6 +99,7 @@ module.exports = backbone.View.extend
 
   sliceUserData: ->
     if (!@allData)
+      console.log('nodata')
       [
         total_pages: 1
         resources: []
@@ -105,8 +107,10 @@ module.exports = backbone.View.extend
     else
       userData = @allData[3][0]
       offset = (@currentPage - 1) * @limitPerPage
+      console.log(offset, @currentPage, @limitPerPage)
+      console.log(userData)
       [
-        total_pages: userData.total_pages
+        total_pages: parseInt(userData.resources.length / @limitPerPage) + 1
         resources: userData.resources.slice(offset, offset + @limitPerPage)
       ]
 
