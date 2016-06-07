@@ -17,6 +17,9 @@
   ],
   "dependencies": {
     "growl": "~1.3.1",
-    "jquery-bootstrap-pagination": "^1.2.0"
+    "jquery-bootstrap-pagination": "https://github.com/markbates/jquery-bootstrap-pagination.git#9ec72011eadd9db045b0c2c24009511e79d4b86f"
+  },
+  "resolutions": {
+    "jquery-bootstrap-pagination": "9ec72011eadd9db045b0c2c24009511e79d4b86f"
   }
 }
