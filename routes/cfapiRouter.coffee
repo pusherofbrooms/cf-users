@@ -16,7 +16,7 @@ router.put '/:level/:levelGuid/:associationType/:associationGuid', cfapi.putRole
 router.delete '/:level/:levelGuid/:associationType/:associationGuid', cfapi.deleteRole
 router.get '/users/:userGuid/:associationType', cfapi.listUserAssociation
 router.get '/:level/:levelGuid/:associationType', cfapi.listCfRequest
-router.get '/users', cfapi.allUsersWithQuery
+router.get /\/users(\/?\?.*|$)/, cfapi.allUsersWithQuery
 router.get '/identityProviders/saml', cfapi.samlIdentityProviders
 module.exports = router;
 
