@@ -53,7 +53,7 @@ module.exports = backbone.View.extend
           arguments[3][0].resources = resources
           @allData = arguments
 
-        userData = @sliceUserData()
+        currentUserData = @sliceUserData()
 
         auditors = {}
         for auditor in auditorData[0].resources
@@ -65,7 +65,7 @@ module.exports = backbone.View.extend
         orgUsers = {}
         for orgUser in orgUserData[0].resources
           orgUsers[orgUser.entity.username] = true
-        userViews = (new OrgUserView({host: @host,orgGuid : @orgGuid, userName: user.entity.username, userGuid : user.metadata.guid, isManager : managers[user.entity.username], isAuditor : auditors[user.entity.username], isOrgUser : orgUsers[user.entity.username], userIsOrgManager: @isOrgManager}) for user in userData[0].resources)
+        userViews = (new OrgUserView({host: @host,orgGuid : @orgGuid, userName: user.entity.username, userGuid : user.metadata.guid, isManager : managers[user.entity.username], isAuditor : auditors[user.entity.username], isOrgUser : orgUsers[user.entity.username], userIsOrgManager: @isOrgManager}) for user in currentUserData[0].resources)
 
         for userView in userViews
           userView.render()
@@ -73,9 +73,9 @@ module.exports = backbone.View.extend
 
         pagination = $('<div id="userPagination"></div>')
         @$el.append(pagination)
-        console.log(userData)
+        console.log(currentUserData)
         pagination.pagination
-          total_pages: userData[0].total_pages
+          total_pages: currentUserData[0].total_pages
           current_page: @currentPage
           next: '&raquo;'
           prev: '&laquo;'
