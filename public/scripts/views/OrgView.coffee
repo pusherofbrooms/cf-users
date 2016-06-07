@@ -34,10 +34,10 @@ module.exports = backbone.View.extend
     managerRequest = $.ajax
       url: "https://#{@host}/cf-users/cf-api/organizations/#{@orgGuid}/managers"
     orgUserRequest = $.ajax
-      url: "https://#{@host}/cf-users/cf-api/organizations/#{@orgGuid}/users?page=#{@currentPage}"
+      url: "https://#{@host}/cf-users/cf-api/organizations/#{@orgGuid}/users"
 
     userRequest = $.ajax
-      url:"https://#{@host}/cf-users/cf-api/users"
+      url:"https://#{@host}/cf-users/cf-api/users?page=#{@currentPage}"
 
     success = (auditorData,managerData,orgUserData,userData) =>
         auditors = {}
