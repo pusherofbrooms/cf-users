@@ -16,6 +16,7 @@ module.exports = backbone.View.extend
     @orgGuid = options.orgGuid
     @orgName = options.orgName
     @userName = options.userName
+    @currentPage = 1
 
   render : ->
     table = $("<table class=\"table table-bordered table-striped\"></table>")
@@ -27,22 +28,13 @@ module.exports = backbone.View.extend
     table.append(row)
     @.$el.append(table)
 
-    pagination = $('<div id="userPagination"></div>')
-    @.$el.append(pagination)
-    pagination.pagination
-      total_pages: 35
-      current_page: 2
-      next: '&raquo;'
-      prev: '&laquo;'
-      display_max: 5
-
     spinner.blockUI()
     auditorRequest = $.ajax
       url: "https://#{@host}/cf-users/cf-api/organizations/#{@orgGuid}/auditors"
     managerRequest = $.ajax
       url: "https://#{@host}/cf-users/cf-api/organizations/#{@orgGuid}/managers"
     orgUserRequest = $.ajax
-      url: "https://#{@host}/cf-users/cf-api/organizations/#{@orgGuid}/users"
+      url: "https://#{@host}/cf-users/cf-api/organizations/#{@orgGuid}/users?page=#{@currentPage}"
 
     userRequest = $.ajax
       url:"https://#{@host}/cf-users/cf-api/users"
@@ -67,6 +59,22 @@ module.exports = backbone.View.extend
         for userView in userViews
           userView.render()
           table.append(userView.$el)
+
+        pagination = $('<div id="userPagination"></div>')
+        @.$el.append(pagination)
+        pagination.pagination
+          total_pages: userData[0].total_pages
+          current_page: @currentPage
+          next: '&raquo;'
+          prev: '&laquo;'
+          display_max: 5
+          callback: (event, page) =>
+            console.log(event, page)
+            @currentPage = page
+            pagination.unbind()
+            @$el.empty()
+            @render()
+
         spinner.unblockUI()
 
 
