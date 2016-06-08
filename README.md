@@ -56,6 +56,15 @@ The guids can be retrieved utilizing the uaac users command.
 For local development update gulpfile.coffee to set the corresponding values in the VCAP_SERVICES environment variable.
 
 ##Deploy The App from the bash command line with the following commands:
+
+Install bower (globally may be best) and then use bower to install the needed bower components:
+```
+npm install bower -g
+bower install
+```
+
+Install node modules, package, and push
+
 ```
 rm -rf node_modules
 npm install --production
