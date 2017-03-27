@@ -4,7 +4,6 @@ EmptyView = require './views/EmptyView'
 ContainerView = require './views/ContainerView'
 RolesView = require './views/RolesView'
 EditUserView = require './views/EditUserView'
-AddUserView = require './views/AddUserView'
 module.exports =  backbone.Router.extend
   initialize : (options) ->
     @options = options
@@ -27,7 +26,6 @@ module.exports =  backbone.Router.extend
 
   routes:
     "cf-users/roles" : "roles"
-    "cf-users/adduser" : "adduser"
     "cf-users/edituser" : "edituser"
 
   roles : () ->
@@ -35,14 +33,6 @@ module.exports =  backbone.Router.extend
       @view.remove()
     @options.userData = @userData;
     @view = new RolesView(@options);
-    @containerView.$('.appcontainer').html(@view.$el);
-    @view.render();
-
-  adduser: () ->
-    if(@view)
-      @view.remove()
-    @options.userData = @userData;
-    @view = new AddUserView(@options);
     @containerView.$('.appcontainer').html(@view.$el);
     @view.render();
 
