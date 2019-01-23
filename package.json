@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "CloudFoundry User Management",
   "engines": {
-    "node": "0.12.x",
+    "node": "6.x.x",
     "npm": "2.11.x"
   },
   "scripts": {
